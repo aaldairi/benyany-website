@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<!--
+  Benyany marketing site — direction 1a "Ledger" from `Benyany Site.dc.html`.
+  Arabic is primary: the export's state is `{ lang: 'ar' }` and العربية is the
+  first tab, so the static markup below is Arabic and `dir="rtl"`.
+  English lives in js/main.js and is swapped in over the [data-t] hooks.
+  If you edit Arabic copy here, edit COPY.ar in js/main.js too.
+-->
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بنياني — طبقة المحادثات للتجارة في البحرين</title>
+<meta name="description" content="بنياني هي طبقة المحادثات التي يتعامل فيها العميل مع الشركة فعلياً — عروض أسعار وطلبات وتذاكر، كلها داخل نفس المحادثة، ولكل منها سجل.">
+<meta name="theme-color" content="#FAF8F3">
+<link rel="icon" href="assets/img/benyany-logo.png">
+<link rel="apple-touch-icon" href="assets/img/benyany-logo.png">
+<meta property="og:title" content="بنياني — طبقة المحادثات للتجارة في البحرين">
+<meta property="og:description" content="عروض أسعار وطلبات وتذاكر، كلها داخل نفس المحادثة، ولكل منها سجل.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+
+<a class="skip" href="#main" data-t="skip">تخطَّ إلى المحتوى</a>
+
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="head-logo" href="#" aria-label="Benyany">
+      <img src="assets/img/benyany-logo.png" alt="بنياني" width="647" height="704">
+    </a>
+
+    <nav class="head-nav" aria-label="الرئيسية">
+      <a href="#for-business" data-t="nav.0">للشركات</a>
+      <a href="#for-customers" data-t="nav.1">للعملاء</a>
+      <a href="#pricing" data-t="nav.2">الأسعار</a>
+      <a href="#trust" data-t="nav.3">من نحن</a>
+    </nav>
+
+    <div class="head-actions">
+      <div class="lang-switch" role="group" aria-label="Language / اللغة">
+        <button type="button" class="lang-btn is-on" data-lang="ar" lang="ar">العربية</button>
+        <button type="button" class="lang-btn" data-lang="en" lang="en">English</button>
+      </div>
+      <a class="head-signin" href="#" data-t="signIn">تسجيل الدخول</a>
+      <a class="btn btn-navy" href="#start" data-t="cta">سجّل عملك</a>
+    </div>
+
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="mnav" aria-label="القائمة">
+      <span class="material-symbols-rounded" aria-hidden="true">menu</span>
+    </button>
+  </div>
+
+  <nav class="mnav" id="mnav" hidden aria-label="القائمة">
+    <a href="#for-business" data-t="nav.0">للشركات</a>
+    <a href="#for-customers" data-t="nav.1">للعملاء</a>
+    <a href="#pricing" data-t="nav.2">الأسعار</a>
+    <a href="#trust" data-t="nav.3">من نحن</a>
+    <a href="#" data-t="signIn">تسجيل الدخول</a>
+    <a class="btn btn-navy" href="#start" data-t="cta">سجّل عملك</a>
+  </nav>
+</header>
+
+<main id="main">
+
+  <!-- 1 · Hero -->
+  <section class="sec hero">
+    <div class="wrap">
+      <p class="eyebrow gold">
+        <span class="material-symbols-rounded" aria-hidden="true">verified</span><span data-t="eyebrow">مسجّلة في البحرين</span>
+      </p>
+      <h1 data-t="h1">الاتفاق يحدث في المحادثة. اجعل السجل يحدث فيها أيضاً.</h1>
+      <p class="hero-sub" data-t="sub">بنياني هي طبقة المحادثات التي يتعامل فيها العميل مع الشركة فعلياً — عروض أسعار وطلبات وتذاكر، كلها داخل نفس المحادثة، ولكل منها سجل.</p>
+
+      <div class="paths">
+        <a class="path path-biz lift" id="for-business" href="#start">
+          <span class="path-head">
+            <span class="path-icon"><span class="material-symbols-rounded" aria-hidden="true">storefront</span></span>
+            <span class="eyebrow yellow" data-t="pathBizTag">للشركات</span>
+          </span>
+          <span class="path-title" data-t="pathBizTitle">استقبل الطلبات وسعّرها</span>
+          <span class="path-body" data-t="pathBizBody">صندوق واحد لكل القنوات، مع منشئ عروض أسعار يعرض هامش الربح قبل الإرسال.</span>
+          <span class="pill pill-yellow"><span data-t="cta">سجّل عملك</span><span class="material-symbols-rounded arrow" aria-hidden="true">arrow_back</span></span>
+        </a>
+
+        <a class="path path-cli lift" id="for-customers" href="#start">
+          <span class="path-head">
+            <span class="path-icon path-icon-light"><span class="material-symbols-rounded" aria-hidden="true">person</span></span>
+            <span class="eyebrow muted" data-t="pathCliTag">للعملاء</span>
+          </span>
+          <span class="path-title" data-t="pathCliTitle">اطلب سعراً من مورّد موثّق</span>
+          <span class="path-body" data-t="pathCliBody">ارفع المخطط، اختر المساحات، واستلم عرضاً منظّماً يمكنك قبوله أو مناقشته.</span>
+          <span class="pill pill-grey"><span data-t="ctaClient">ابحث عن مورّد</span><span class="material-symbols-rounded arrow" aria-hidden="true">arrow_back</span></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · How it works -->
+  <section class="sec sec-white">
+    <div class="wrap">
+      <p class="eyebrow gold" data-t="howTag">كيف تعمل</p>
+      <h2 class="h2-lg" data-t="howTitle">أربع خطوات، بلا مكالمات</h2>
+      <ol class="steps" data-list="steps">
+        <li class="step">
+          <span class="step-top"><span class="step-n">١</span><span class="step-rule"></span></span>
+          <span class="step-title">سجّل عملك</span>
+          <span class="step-body">بالسجل التجاري ورقم جوال. الرقم هو هويتك في بنياني.</span>
+        </li>
+        <li class="step">
+          <span class="step-top"><span class="step-n">٢</span><span class="step-rule"></span></span>
+          <span class="step-title">اربط قنواتك</span>
+          <span class="step-body">واتساب وانستقرام والتطبيق تصل كلها إلى صندوق واحد.</span>
+        </li>
+        <li class="step">
+          <span class="step-top"><span class="step-n">٣</span><span class="step-rule"></span></span>
+          <span class="step-title">دع مايا تردّ</span>
+          <span class="step-body">على مدار الساعة، بقواعدك، وبلا اختلاق أسعار.</span>
+        </li>
+        <li class="step">
+          <span class="step-top"><span class="step-n">٤</span><span class="step-rule"></span></span>
+          <span class="step-title">سعّر وأرسل</span>
+          <span class="step-body">منشئ عروض بالكمية والخصم والضريبة وخطة الدفع.</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 3 · Inside the app -->
+  <section class="sec sec-paper">
+    <div class="wrap split">
+      <div class="split-copy">
+        <p class="eyebrow gold" data-t="prodTag">داخل التطبيق</p>
+        <h2 data-t="prodTitle">الرسائل فقاعات. الاتفاقات بطاقات.</h2>
+        <p class="lede" data-t="prodBody">عرض السعر سجل له حالة — يُراجع ويُقبل ويُدفع عليه. لا يجب أن يبدو كجملة كتبها أحدهم.</p>
+        <ul class="ticks" data-list="prodPoints">
+          <li><span class="material-symbols-rounded tick-green" aria-hidden="true">check_circle</span><span>عرض السعر يُراجع ويُقبل ويُناقش داخل المحادثة</span></li>
+          <li><span class="material-symbols-rounded tick-green" aria-hidden="true">check_circle</span><span>كل مراجعة نسخة جديدة — النسخة الأولى تبقى</span></li>
+          <li><span class="material-symbols-rounded tick-green" aria-hidden="true">check_circle</span><span>المخطط يُقرأ آلياً، فلا حاجة لزيارة قبل التسعير</span></li>
+        </ul>
+      </div>
+      <div class="phones" data-phones aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 4 · Maya -->
+  <section class="sec sec-ink maya">
+    <span class="glow glow-maya" aria-hidden="true"></span>
+    <div class="wrap split split-maya">
+      <div class="split-copy">
+        <p class="eyebrow green"><span class="orb" aria-hidden="true"></span><span data-t="mayaTag">مايا · المساعد الذكي</span></p>
+        <h2 class="on-ink" data-t="mayaTitle">تردّ في الثانية صباحاً. ولا تختلق شيئاً.</h2>
+        <p class="lede on-ink-muted" data-t="mayaBody">مايا تردّ على مدار الساعة. التحويل إلى شخص هو الوحيد المرتبط بساعات العمل.</p>
+        <ul class="ticks ticks-ink" data-list="mayaPoints">
+          <li><span class="material-symbols-rounded tick-bright" aria-hidden="true">check_circle</span><span>تصيغ طلباً منظّماً من رسالة عادية</span></li>
+          <li><span class="material-symbols-rounded tick-bright" aria-hidden="true">check_circle</span><span>تسعّر من قائمة أسعارك — وزر الإرسال يبقى لك</span></li>
+          <li><span class="material-symbols-rounded tick-bright" aria-hidden="true">shield</span><span>تقول لا أعرف بدلاً من التخمين</span></li>
+        </ul>
+      </div>
+
+      <aside class="maya-card">
+        <p class="maya-card-head"><span class="orb orb-lg" aria-hidden="true"></span><span class="eyebrow green" data-t="mayaLabel">مايا · تردّ الآن</span></p>
+        <p class="maya-quote" data-t="mayaQuote">قرأت المخطط — ٧٦ متراً مربعاً داخل النطاق. قبل التسعير، هل الكسوة للجدار الرئيسي فقط؟</p>
+        <p class="chips" data-list="mayaChips"><span class="chip">إيقاف</span><span class="chip">اقتراحات</span><span class="chip">رد تلقائي</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 5 · Features -->
+  <section class="sec sec-white">
+    <div class="wrap">
+      <p class="eyebrow gold" data-t="featTag">ما تحصل عليه</p>
+      <h2 class="h2-gap" data-t="featTitle">كل ما تحتاجه المحادثة التجارية</h2>
+      <div class="feat-grid" data-list="features">
+        <article class="feat lift"><span class="material-symbols-rounded feat-i" aria-hidden="true">forum</span><h3>صندوق موحّد</h3><p>واتساب وانستقرام والتطبيق في مكان واحد، مع عدّاد لكل مرشّح.</p></article>
+        <article class="feat lift"><span class="material-symbols-rounded feat-i" aria-hidden="true">request_quote</span><h3>منشئ عروض الأسعار</h3><p>الكمية والخصم والضريبة وخطة الدفع — والهامش قبل الإرسال.</p></article>
+        <article class="feat lift"><span class="material-symbols-rounded feat-i" aria-hidden="true">groups</span><h3>فريق بأدوار</h3><p>كل عضو بحسابه. التحويل مقيّد بالدور، لا يأخذه أحد بصمت.</p></article>
+        <article class="feat lift"><span class="material-symbols-rounded feat-i" aria-hidden="true">unknown_document</span><h3>تذاكر في الاتجاهين</h3><p>ارفع مشكلة أو استلمها، مع سجل زمني وأطراف مشتركة.</p></article>
+        <article class="feat lift"><span class="material-symbols-rounded feat-i" aria-hidden="true">schedule</span><h3>نافذة ٢٤ ساعة</h3><p>نوضح متى تُقيَّد الردود المجانية، ونعرض القوالب المعتمدة.</p></article>
+        <article class="feat lift"><span class="material-symbols-rounded feat-i" aria-hidden="true">lock</span><h3>صدق الواجهة</h3><p>لا حالة اتصال ولا علامات قراءة مختلقة على القنوات الخارجية.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Trust -->
+  <section class="sec sec-paper sec-rule" id="trust">
+    <div class="wrap split split-trust">
+      <div class="split-copy">
+        <p class="eyebrow green-dark"><span class="material-symbols-rounded" aria-hidden="true">verified_user</span><span data-t="trustTag">الثقة</span></p>
+        <h2 class="h2-sm" data-t="trustTitle">شركات موثّقة بالسجل التجاري، لا نجوم فقط</h2>
+        <p class="lede" data-t="trustBody">حالة التسجيل تُغني عن التقييم. نعرض السجل التجاري وعدد الأعمال المنجزة ومتوسط زمن الرد.</p>
+      </div>
+      <ul class="trust-rows" data-list="trustRows">
+        <li><span class="material-symbols-rounded tick-green" aria-hidden="true">verified</span><span>السجل التجاري موثّق قبل الظهور</span></li>
+        <li><span class="material-symbols-rounded tick-green" aria-hidden="true">history</span><span>عدد الأعمال المنجزة ومتوسط زمن الرد</span></li>
+        <li><span class="material-symbols-rounded tick-green" aria-hidden="true">gavel</span><span>بنياني يسجّل المدفوعات ولا يحوّلها</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 7 · Pricing -->
+  <section class="sec sec-white" id="pricing">
+    <div class="wrap">
+      <div class="centered">
+        <p class="eyebrow gold" data-t="priceTag">الأسعار</p>
+        <h2 data-t="priceTitle">ابدأ مجاناً. ادفع عند النمو.</h2>
+        <p class="price-sub" data-t="priceSub">بدون عقود. للعملاء مجاناً دائماً.</p>
+      </div>
+      <div class="plans" data-plans></div>
+    </div>
+  </section>
+
+  <!-- 8 · Testimonials — deliberately unfilled, see README -->
+  <section class="sec sec-paper sec-rule">
+    <div class="wrap">
+      <div class="voice-head">
+        <p class="eyebrow gold" data-t="voiceTag">من عملائنا</p>
+        <p class="note" data-t="placeholderNote">مواضع مؤقتة — لم نستلم شهادات حقيقية بعد</p>
+      </div>
+      <div class="quotes" data-quotes></div>
+    </div>
+  </section>
+
+  <!-- 9 · FAQ -->
+  <section class="sec sec-white">
+    <div class="wrap">
+      <h2 class="h2-faq" data-t="faqTitle">أسئلة متكرّرة</h2>
+      <div class="faq" data-faq></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot" id="start">
+  <div class="wrap">
+    <div class="end">
+      <div class="end-copy">
+        <h2 class="on-ink" data-t="endTitle">ابدأ باستقبال الطلبات هذا الأسبوع</h2>
+        <p class="lede on-ink-muted" data-t="endBody">سجّل عملك، وفّق حسابك على واتساب، وردّ من صندوق واحد.</p>
+      </div>
+      <div class="end-actions">
+        <a class="btn btn-yellow btn-lg" href="#" data-t="cta">سجّل عملك</a>
+        <a class="btn btn-ghost btn-lg" href="#" data-t="ctaTalk">تحدّث إلينا</a>
+      </div>
+    </div>
+
+    <div class="foot-cols">
+      <div class="foot-brand">
+        <img src="assets/img/benyany-mark-yellow.png" alt="بنياني" width="647" height="704">
+        <p class="foot-blurb" data-t="footBlurb">طبقة المحادثات للتجارة في البحرين.</p>
+        <p class="badges" data-list="badges">
+          <span class="badge"><span class="material-symbols-rounded" aria-hidden="true">phone_iphone</span>آب ستور</span>
+          <span class="badge"><span class="material-symbols-rounded" aria-hidden="true">shop</span>جوجل بلاي</span>
+        </p>
+      </div>
+      <div class="foot-links" data-foot></div>
+    </div>
+
+    <p class="copyright" data-t="copyright">© ٢٠٢٦ بنياني. جميع الحقوق محفوظة.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
