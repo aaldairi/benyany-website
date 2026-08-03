@@ -133,6 +133,12 @@ python3 -m http.server 8792
 
 Then open <http://localhost:8792/>.
 
+Run the console regression checks with:
+
+```bash
+node --test tests/*.test.mjs
+```
+
 ## Verified
 
 - Renders at 1440×2400 and 390×1600, in both `rtl` and `ltr`.

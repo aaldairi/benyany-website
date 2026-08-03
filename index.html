@@ -611,21 +611,35 @@ var UID = 'benyany_pro_uid';   // the signed-in user id, for in/out attribution
 var $ = function(i){ return document.getElementById(i); };
 var S = { phone:'', chats:[], active:null, filter:'all', q:'', rail:'chat' };
 
-function token(){ try{ return localStorage.getItem(TK)||''; }catch(e){ return ''; } }
-function setToken(t){ try{ t?localStorage.setItem(TK,t):localStorage.removeItem(TK); }catch(e){} }
+function token(){ try{ return sessionStorage.getItem(TK)||''; }catch(e){ return ''; } }
+function setToken(t){ try{ t?sessionStorage.setItem(TK,t):sessionStorage.removeItem(TK); }catch(e){} }
+function clearSession(){
+  setToken('');
+  try{ sessionStorage.removeItem(UID); }catch(e){}
+  S.chats=[]; S.active=null;
+}
+/* Authentication used to persist indefinitely in localStorage. Remove any
+   legacy copy once; tokens now live only for the browser tab's session. */
+try{ localStorage.removeItem(TK); localStorage.removeItem(UID); }catch(e){}
 
 function call(url, o){
   o = o || {};
   var h = { 'Content-Type':'application/json', 'X-Contract-Version':'1' };
-  if (token()) h['Authorization'] = 'Bearer ' + token();   /* api_service_call.dart:163 */
-  return fetch(url,{ method:o.method||'GET', headers:h, body:o.body?JSON.stringify(o.body):undefined })
+  var authToken=token(), controller=typeof AbortController==='function'?new AbortController():null;
+  var timeout=controller?setTimeout(function(){ controller.abort(); },60000):null;
+  if (authToken) h['Authorization'] = 'Bearer ' + authToken;   /* api_service_call.dart:163 */
+  return fetch(url,{ method:o.method||'GET', headers:h, body:o.body?JSON.stringify(o.body):undefined,
+      signal:controller?controller.signal:undefined })
     .then(function(r){ return r.text().then(function(t){
-      var d={}; try{ d = t?JSON.parse(t):{}; }catch(e){ d={message:t}; }
+      var d={}, parsed=true; try{ d = t?JSON.parse(t):{}; }catch(e){ parsed=false; }
+      if(r.status===401 && authToken){ clearSession(); showConsole(false); }
       if(!r.ok){ var e2=new Error(d.message||('Request failed ('+r.status+')')); e2.status=r.status; throw e2; }
+      if(!parsed) throw new Error('The server returned an invalid response. Please try again.');
       return d;
-    });}, function(){
+    });}, function(e){
+      if(e&&e.name==='AbortError') throw new Error('The request timed out. Please try again.');
       throw new Error('Could not reach the server. The API may not allow browser requests from this domain (CORS).');
-    });
+    }).finally(function(){ if(timeout) clearTimeout(timeout); });
 }
 
 function clientMessageId(){
@@ -738,7 +752,7 @@ $('go2').addEventListener('click',function(){
       try {
         var u = r.data.user || {};
         var uid = u._id || u.Id || u.id || '';
-        if (uid) localStorage.setItem(UID, String(uid));
+        if (uid) sessionStorage.setItem(UID, String(uid));
       } catch(e){}
       showConsole(true); loadChats();
     })
@@ -747,7 +761,7 @@ $('go2').addEventListener('click',function(){
 });
 $('signout').addEventListener('click',function(){
   teardownRecording();   // release the mic on sign-out
-  setToken(''); S.chats=[]; S.active=null; showConsole(false);
+  clearSession(); showConsole(false);
   $('si-code').style.display='none'; $('si-phone').style.display='block';
 });
 
@@ -1090,7 +1104,7 @@ function loadChats(){
     S.chats = Array.isArray(d)?d:((d&&(d.chats||d.docs||d.list))||[]);
     renderRail(); renderChips(); renderRows();
   }).catch(function(e){
-    if(e.status===401){ setToken(''); showConsole(false); err('e1','Your session expired. Sign in again.'); return; }
+    if(e.status===401){ clearSession(); showConsole(false); err('e1','Your session expired. Sign in again.'); return; }
     $('rows').innerHTML='<div class="lempty">'+esc(e.message)+'</div>';
   });
 }
@@ -1137,8 +1151,8 @@ function open(c,i){
       '<textarea id="reply" rows="1" placeholder="Reply to '+esc(nm)+'…"></textarea>'+
       '<button class="maya bny-press" id="maya" title="Ask Maya"><span class="material-symbols-rounded">auto_awesome</span></button>'+
       '<span class="slot">'+
-        '<button class="mic bny-swap bny-press" id="mic"><span class="material-symbols-rounded">mic</span></button>'+
-        '<button class="send bny-swap off bny-press" id="send"><span class="material-symbols-rounded">arrow_upward</span></button>'+
+        '<button class="mic bny-swap bny-press" id="mic" aria-label="Record a voice note"><span class="material-symbols-rounded">mic</span></button>'+
+        '<button class="send bny-swap off bny-press" id="send" aria-label="Send message"><span class="material-symbols-rounded">arrow_upward</span></button>'+
       '</span>'+
     '</div>';
 
@@ -1589,7 +1603,7 @@ function isOutgoing(m){
   if (m == null || typeof m !== 'object') return false;
   if (m.isMine || m.fromMe || m.outgoing) return true;
   var me = '';
-  try { me = localStorage.getItem(UID) || ''; } catch(e){}
+  try { me = sessionStorage.getItem(UID) || ''; } catch(e){}
   var by = (m.addedBy && (m.addedBy._id || m.addedBy.Id || m.addedBy)) || m.senderId || '';
   return !!me && String(by) === String(me);
 }
