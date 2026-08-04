@@ -883,6 +883,7 @@ h1 {
   font-weight: 600;
   white-space: nowrap;
 }
+.badge:hover { border-color: rgba(250, 248, 243, .46); color: var(--on-ink); }
 .badge .material-symbols-rounded { font-size: 18px; }
 
 .foot-links { display: flex; gap: 44px; flex-wrap: wrap; }
@@ -897,6 +898,8 @@ h1 {
 .foot-col ul { display: flex; flex-direction: column; gap: 11px; margin-top: 15px; }
 .foot-col a { font-size: 15px; color: rgba(250, 248, 243, .72); }
 .foot-col a:hover { color: var(--on-ink); }
+.foot-unavailable { font-size: 15px; color: rgba(250, 248, 243, .44); }
+.foot-unavailable small { font-size: 11px; }
 
 .copyright {
   font-size: 13.5px;
@@ -922,7 +925,12 @@ h1 {
   .feat-grid { grid-template-columns: repeat(2, 1fr); }
   .plans, .quotes { flex-wrap: wrap; }
   .plan, .quote { flex: 1 1 300px; }
-  .phones { flex: 1 1 100%; max-width: 480px; }
+  .phones {
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: 480px;
+  }
   .trust-rows { flex: 1 1 100%; }
 }
 

@@ -88,11 +88,17 @@
         ['من يستطيع سحب محادثة زميل؟', 'المالك أو المشرف فقط. غير ذلك، يجب أن يعرضها المسؤول عنها أولاً — لتجنّب ردّ شخصين على نفس العميل بإجابتين.'],
         ['بأي عملة نسعّر؟', 'بعملة عملك المسجّلة فقط. البحرين بالدينار بثلاث خانات عشرية. لا تسعير بعملات أخرى حالياً.']
       ],
-      badges: [['phone_iphone', 'آب ستور'], ['shop', 'جوجل بلاي']],
+      unavailable: 'غير متاح بعد',
+      badges: [
+        ['phone_iphone', 'بنياني · آب ستور', 'https://apps.apple.com/bh/app/benyany/id6753870628', 'download-customer'],
+        ['shop', 'بنياني · جوجل بلاي', 'https://play.google.com/store/apps/details?id=com.benyany.clients'],
+        ['phone_iphone', 'بنياني برو · آب ستور', 'https://apps.apple.com/bh/app/benyany-pro/id6753870873', 'download-business'],
+        ['shop', 'بنياني برو · جوجل بلاي', 'https://play.google.com/store/apps/details?id=com.benyany.pro']
+      ],
       footCols: [
-        ['المنتج', ['للشركات', 'للعملاء', 'الأسعار', 'مايا الذكية']],
-        ['الشركة', ['من نحن', 'تواصل معنا', 'الوظائف', 'المدوّنة']],
-        ['قانوني', ['الشروط', 'الخصوصية', 'حماية البيانات', 'السجل التجاري']]
+        ['المنتج', [['للشركات', '#for-business'], ['للعملاء', '#for-customers'], ['الأسعار', '#pricing'], ['مايا الذكية', '#maya']]],
+        ['الشركة', [['من نحن', '#trust'], ['تواصل معنا', 'mailto:info@benyany.com'], ['الوظائف', null], ['المدوّنة', null]]],
+        ['قانوني', [['الشروط', null], ['الخصوصية', null], ['حماية البيانات', null], ['السجل التجاري', null]]]
       ],
       quote: 'موضع لشهادة حقيقية من عميل — بانتظار نص موثّق.',
       phones: [
@@ -178,11 +184,17 @@
         ['Who can take over a teammate’s conversation?', 'An owner or admin. Otherwise the assignee has to offer it first — so two people never answer the same customer with different answers.'],
         ['Which currency do we quote in?', 'Your registered currency only. Bahrain quotes in BHD to three decimals. No cross-currency quoting for now.']
       ],
-      badges: [['phone_iphone', 'App Store'], ['shop', 'Google Play']],
+      unavailable: 'Not available yet',
+      badges: [
+        ['phone_iphone', 'Benyany · App Store', 'https://apps.apple.com/bh/app/benyany/id6753870628', 'download-customer'],
+        ['shop', 'Benyany · Google Play', 'https://play.google.com/store/apps/details?id=com.benyany.clients'],
+        ['phone_iphone', 'Benyany Pro · App Store', 'https://apps.apple.com/bh/app/benyany-pro/id6753870873', 'download-business'],
+        ['shop', 'Benyany Pro · Google Play', 'https://play.google.com/store/apps/details?id=com.benyany.pro']
+      ],
       footCols: [
-        ['Product', ['For business', 'For customers', 'Pricing', 'Maya AI']],
-        ['Company', ['About', 'Contact', 'Careers', 'Blog']],
-        ['Legal', ['Terms', 'Privacy', 'Data protection', 'Commercial registration']]
+        ['Product', [['For business', '#for-business'], ['For customers', '#for-customers'], ['Pricing', '#pricing'], ['Maya AI', '#maya']]],
+        ['Company', [['About', '#trust'], ['Contact', 'mailto:info@benyany.com'], ['Careers', null], ['Blog', null]]],
+        ['Legal', [['Terms', null], ['Privacy', null], ['Data protection', null], ['Commercial registration', null]]]
       ],
       quote: 'Space for a real customer quote — awaiting an attributable one.',
       phones: [
@@ -357,7 +369,9 @@
       card.appendChild(lines);
 
       var cta = el('a', 'btn plan-cta', i === 0 ? t.ctaClient : (i === 1 ? t.cta : t.ctaTalk));
-      cta.href = '#start';
+      cta.href = i === 0
+        ? '#download-customer'
+        : (i === 1 ? '#download-business' : 'mailto:info@benyany.com');
       card.appendChild(cta);
 
       host.appendChild(card);
@@ -427,10 +441,12 @@
     if (!host) return;
     host.textContent = '';
     t.badges.forEach(function (b) {
-      var s = el('span', 'badge');
-      s.appendChild(icon(b[0]));
-      s.appendChild(el('span', null, b[1]));
-      host.appendChild(s);
+      var a = el('a', 'badge');
+      a.href = b[2];
+      if (b[3]) a.id = b[3];
+      a.appendChild(icon(b[0]));
+      a.appendChild(el('span', null, b[1]));
+      host.appendChild(a);
     });
   }
 
@@ -442,11 +458,19 @@
       var c = el('div', 'foot-col');
       c.appendChild(el('h3', 'foot-col-title', col[0]));
       var ul = el('ul');
-      col[1].forEach(function (label) {
+      col[1].forEach(function (item) {
         var li = el('li');
-        var a = el('a', null, label);
-        a.href = '#';
-        li.appendChild(a);
+        if (item[1]) {
+          var a = el('a', null, item[0]);
+          a.href = item[1];
+          li.appendChild(a);
+        } else {
+          var unavailable = el('span', 'foot-unavailable', item[0]);
+          unavailable.setAttribute('aria-disabled', 'true');
+          unavailable.title = t.unavailable;
+          unavailable.appendChild(el('small', null, ' · ' + t.unavailable));
+          li.appendChild(unavailable);
+        }
         ul.appendChild(li);
       });
       c.appendChild(ul);

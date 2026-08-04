@@ -1,10 +1,4 @@
-# PRE-LAUNCH — nothing here should be indexed yet.
-# The page still carries placeholder testimonials, nav and footer links that
-# point at #, and a BHD 19/month figure that is not committed to.
-#
-# At launch: delete the Disallow below, and delete the
-# <meta name="robots" content="noindex, nofollow"> line in index.html.
-# Removing only one of the two leaves the page blocked.
-
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://benyanypro.com/sitemap.xml

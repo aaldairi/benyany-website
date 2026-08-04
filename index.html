@@ -13,12 +13,6 @@
 <title>بنياني — طبقة المحادثات للتجارة في البحرين</title>
 <meta name="description" content="بنياني هي طبقة المحادثات التي يتعامل فيها العميل مع الشركة فعلياً — عروض أسعار وطلبات وتذاكر، كلها داخل نفس المحادثة، ولكل منها سجل.">
 <meta name="theme-color" content="#FAF8F3">
-<!--
-  PRE-LAUNCH. Remove this line and the Disallow in robots.txt when the
-  testimonials are real, the nav and footer links point somewhere, and the
-  BHD 19 figure is committed to. Until then nothing here should be indexed.
--->
-<meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="assets/img/benyany-logo.png">
 <link rel="apple-touch-icon" href="assets/img/benyany-logo.png">
 <meta property="og:title" content="بنياني — طبقة المحادثات للتجارة في البحرين">
@@ -28,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/site.css?v=20260730-1">
 </head>
 <body>
 
@@ -36,7 +30,7 @@
 
 <header class="site-head">
   <div class="wrap head-inner">
-    <a class="head-logo" href="#" aria-label="Benyany">
+    <a class="head-logo" href="/" aria-label="Benyany">
       <img src="assets/img/benyany-logo.png" alt="بنياني" width="647" height="704">
     </a>
 
@@ -52,8 +46,8 @@
         <button type="button" class="lang-btn is-on" data-lang="ar" lang="ar">العربية</button>
         <button type="button" class="lang-btn" data-lang="en" lang="en">English</button>
       </div>
-      <a class="head-signin" href="#" data-t="signIn">تسجيل الدخول</a>
-      <a class="btn btn-navy" href="#start" data-t="cta">سجّل عملك</a>
+      <a class="head-signin" href="https://pro.benyany.com" data-t="signIn">تسجيل الدخول</a>
+      <a class="btn btn-navy" href="#download-business" data-t="cta">سجّل عملك</a>
     </div>
 
     <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="mnav" aria-label="القائمة">
@@ -66,8 +60,8 @@
     <a href="#for-customers" data-t="nav.1">للعملاء</a>
     <a href="#pricing" data-t="nav.2">الأسعار</a>
     <a href="#trust" data-t="nav.3">من نحن</a>
-    <a href="#" data-t="signIn">تسجيل الدخول</a>
-    <a class="btn btn-navy" href="#start" data-t="cta">سجّل عملك</a>
+    <a href="https://pro.benyany.com" data-t="signIn">تسجيل الدخول</a>
+    <a class="btn btn-navy" href="#download-business" data-t="cta">سجّل عملك</a>
   </nav>
 </header>
 
@@ -83,7 +77,7 @@
       <p class="hero-sub" data-t="sub">بنياني هي طبقة المحادثات التي يتعامل فيها العميل مع الشركة فعلياً — عروض أسعار وطلبات وتذاكر، كلها داخل نفس المحادثة، ولكل منها سجل.</p>
 
       <div class="paths">
-        <a class="path path-biz lift" id="for-business" href="#start">
+        <a class="path path-biz lift" id="for-business" href="#download-business">
           <span class="path-head">
             <span class="path-icon"><span class="material-symbols-rounded" aria-hidden="true">storefront</span></span>
             <span class="eyebrow yellow" data-t="pathBizTag">للشركات</span>
@@ -93,7 +87,7 @@
           <span class="pill pill-yellow"><span data-t="cta">سجّل عملك</span><span class="material-symbols-rounded arrow" aria-hidden="true">arrow_back</span></span>
         </a>
 
-        <a class="path path-cli lift" id="for-customers" href="#start">
+        <a class="path path-cli lift" id="for-customers" href="#download-customer">
           <span class="path-head">
             <span class="path-icon path-icon-light"><span class="material-symbols-rounded" aria-hidden="true">person</span></span>
             <span class="eyebrow muted" data-t="pathCliTag">للعملاء</span>
@@ -154,7 +148,7 @@
   </section>
 
   <!-- 4 · Maya -->
-  <section class="sec sec-ink maya">
+  <section class="sec sec-ink maya" id="maya">
     <span class="glow glow-maya" aria-hidden="true"></span>
     <div class="wrap split split-maya">
       <div class="split-copy">
@@ -249,8 +243,8 @@
         <p class="lede on-ink-muted" data-t="endBody">سجّل عملك، وفّق حسابك على واتساب، وردّ من صندوق واحد.</p>
       </div>
       <div class="end-actions">
-        <a class="btn btn-yellow btn-lg" href="#" data-t="cta">سجّل عملك</a>
-        <a class="btn btn-ghost btn-lg" href="#" data-t="ctaTalk">تحدّث إلينا</a>
+        <a class="btn btn-yellow btn-lg" href="#download-business" data-t="cta">سجّل عملك</a>
+        <a class="btn btn-ghost btn-lg" href="mailto:info@benyany.com" data-t="ctaTalk">تحدّث إلينا</a>
       </div>
     </div>
 
@@ -259,8 +253,10 @@
         <img src="assets/img/benyany-mark-yellow.png" alt="بنياني" width="647" height="704">
         <p class="foot-blurb" data-t="footBlurb">طبقة المحادثات للتجارة في البحرين.</p>
         <p class="badges" data-list="badges">
-          <span class="badge"><span class="material-symbols-rounded" aria-hidden="true">phone_iphone</span>آب ستور</span>
-          <span class="badge"><span class="material-symbols-rounded" aria-hidden="true">shop</span>جوجل بلاي</span>
+          <a class="badge" id="download-customer" href="https://apps.apple.com/bh/app/benyany/id6753870628"><span class="material-symbols-rounded" aria-hidden="true">phone_iphone</span>بنياني · آب ستور</a>
+          <a class="badge" href="https://play.google.com/store/apps/details?id=com.benyany.clients"><span class="material-symbols-rounded" aria-hidden="true">shop</span>بنياني · جوجل بلاي</a>
+          <a class="badge" id="download-business" href="https://apps.apple.com/bh/app/benyany-pro/id6753870873"><span class="material-symbols-rounded" aria-hidden="true">phone_iphone</span>بنياني برو · آب ستور</a>
+          <a class="badge" href="https://play.google.com/store/apps/details?id=com.benyany.pro"><span class="material-symbols-rounded" aria-hidden="true">shop</span>بنياني برو · جوجل بلاي</a>
         </p>
       </div>
       <div class="foot-links" data-foot></div>
@@ -270,6 +266,6 @@
   </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script src="js/main.js?v=20260730-1"></script>
 </body>
 </html>

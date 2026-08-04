@@ -94,7 +94,12 @@ Reported in full, per repo policy. Nothing below is an accident.
    toggle behaviour is identical.
 7. **Anchor targets** (`#for-business`, `#for-customers`, `#pricing`, `#trust`,
    `#start`). The export's nav items are non-navigating spans.
-8. **Nav and footer links point at `#`.** There is nowhere to send them yet.
+8. **Destination handling.** Product/footer navigation uses real page anchors,
+   sign-in opens the live Pro console, contact opens the published support
+   email, and the four download badges use the authoritative Benyany/Benyany
+   Pro App Store and Google Play records. Careers, blog and legal destinations
+   remain visibly marked unavailable because no approved pages or copy were
+   supplied; they are text, not deceptive links.
 
 **Carried as-is, on purpose:**
 
