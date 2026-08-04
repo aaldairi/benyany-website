@@ -18,6 +18,8 @@ function requestHarness(fetch, overrides = {}) {
       removeItem(key) { values.delete(`local:${key}`); },
     },
     sessionStorage: {
+      get length() { return [...values.keys()].filter((key) => !key.startsWith("local:")).length; },
+      key(index) { return [...values.keys()].filter((key) => !key.startsWith("local:"))[index] ?? null; },
       getItem(key) { return values.get(key) ?? null; },
       setItem(key, value) { values.set(key, value); },
       removeItem(key) { values.delete(key); },
@@ -77,6 +79,8 @@ test("an authenticated 401 clears both identity values", async () => {
   }));
   harness.context.setToken("secret-token");
   harness.values.set("benyany_pro_uid", "user-1");
+  harness.values.set("benyany_note_chat-1", "private customer note");
+  harness.values.set("unrelated_session_key", "keep me");
 
   await assert.rejects(
     harness.context.call("https://example.test"),
@@ -85,7 +89,17 @@ test("an authenticated 401 clears both identity values", async () => {
 
   assert.equal(harness.values.has("benyany_pro_token"), false);
   assert.equal(harness.values.has("benyany_pro_uid"), false);
+  assert.equal(harness.values.has("benyany_note_chat-1"), false);
+  assert.equal(harness.values.get("unrelated_session_key"), "keep me");
   assert.equal(harness.context.consoleState, false);
+});
+
+test("internal notes are session-only and cleared with authentication", () => {
+  assert.match(html, /sessionStorage\.getItem\(noteKey\(c\)\)/);
+  assert.match(html, /sessionStorage\.setItem\(noteKey\(c\), value\)/);
+  assert.match(html, /key\.indexOf\(NOTE_PREFIX\)===0/);
+  assert.doesNotMatch(html, /localStorage\.(?:getItem|setItem)\(noteKey\(c\)/);
+  assert.match(html, /Saved for this session/);
 });
 
 test("an aborted request reports a timeout instead of a CORS error", async () => {

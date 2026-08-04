@@ -608,6 +608,7 @@ function msgsUrl(id){
 }
 var TK = 'benyany_pro_token';
 var UID = 'benyany_pro_uid';   // the signed-in user id, for in/out attribution
+var NOTE_PREFIX = 'benyany_note_';
 var $ = function(i){ return document.getElementById(i); };
 var S = { phone:'', chats:[], active:null, filter:'all', q:'', rail:'chat' };
 
@@ -616,6 +617,12 @@ function setToken(t){ try{ t?sessionStorage.setItem(TK,t):sessionStorage.removeI
 function clearSession(){
   setToken('');
   try{ sessionStorage.removeItem(UID); }catch(e){}
+  try{
+    for(var i=sessionStorage.length-1;i>=0;i--){
+      var key=sessionStorage.key(i);
+      if(key && key.indexOf(NOTE_PREFIX)===0) sessionStorage.removeItem(key);
+    }
+  }catch(e){}
   S.chats=[]; S.active=null;
 }
 /* Authentication used to persist indefinitely in localStorage. Remove any
@@ -1382,13 +1389,13 @@ function composerNote(text){
    note field.
 
    PERSISTENCE CONTRACT. There is no note endpoint on the Benyany API yet, so
-   this persists LOCALLY (per conversation, per device) and labels itself
-   "Saved on this device". When the backend lands, replace saveNote's body with:
+   this persists only for the current browser-tab session and is erased on
+   logout or HTTP 401. When the backend lands, replace saveNote's body with:
        PUT  {api}/chat/{conversationId}/note   { note }   -> 200
    keeping the exact same status states below. The UI does not change. */
-function noteKey(c){ return 'benyany_note_' + (c && (c._id||c.id||c.chatId||peer(c)) || ''); }
+function noteKey(c){ return NOTE_PREFIX + (c && (c._id||c.id||c.chatId||peer(c)) || ''); }
 function loadNote(c){
-  try { return localStorage.getItem(noteKey(c)) || ''; } catch(e){ return ''; }
+  try { return sessionStorage.getItem(noteKey(c)) || ''; } catch(e){ return ''; }
 }
 function noteStatus(msg, tone){
   var el = document.getElementById('note-status');
@@ -1400,21 +1407,21 @@ function noteStatus(msg, tone){
    even once a real network call replaces the local write. */
 function saveNote(c, value){
   return new Promise(function(resolve, reject){
-    try { localStorage.setItem(noteKey(c), value); setTimeout(resolve, 120); }
+    try { sessionStorage.setItem(noteKey(c), value); setTimeout(resolve, 120); }
     catch(e){ reject(e); }
   });
 }
 function wireNotePersistence(c){
   var ta = document.getElementById('ctx-note');
   if (!ta) return;
-  if (ta.value.trim()) noteStatus('Saved on this device', 'ok');
+  if (ta.value.trim()) noteStatus('Saved for this session', 'ok');
   var timer = null;
   ta.addEventListener('input', function(){
     noteStatus('Saving…');
     if (timer) clearTimeout(timer);
     timer = setTimeout(function(){
       saveNote(c, ta.value)
-        .then(function(){ noteStatus(ta.value.trim() ? 'Saved on this device' : ''); })
+        .then(function(){ noteStatus(ta.value.trim() ? 'Saved for this session' : ''); })
         .catch(function(){ noteStatus('Couldn’t save — retry', 'err'); });
     }, 500);
   });
