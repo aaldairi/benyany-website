@@ -95,11 +95,28 @@ Reported in full, per repo policy. Nothing below is an accident.
 7. **Anchor targets** (`#for-business`, `#for-customers`, `#pricing`, `#trust`,
    `#start`). The export's nav items are non-navigating spans.
 8. **Destination handling.** Product/footer navigation uses real page anchors,
-   sign-in opens the live Pro console, contact opens the published support
+   sign-in opens the Pro console, contact opens the published support
    email, and the four download badges use the authoritative Benyany/Benyany
    Pro App Store and Google Play records. Careers, blog and legal destinations
    remain visibly marked unavailable because no approved pages or copy were
    supplied; they are text, not deceptive links.
+
+## Domains
+
+Two hostnames, one job each:
+
+| Host | Serves | Where from |
+|---|---|---|
+| `benyanypro.com` | **this marketing site** | GitHub Pages, this repo |
+| `app.benyanypro.com` | the Pro console (sign-in target) | not yet pointed — see below |
+
+Sign-in on this site links to `https://app.benyanypro.com`. **That hostname has
+no DNS records yet**, so the link is dead until a CNAME is added at GoDaddy
+pointing it at whichever host serves the console.
+
+`benyanypro.com` itself was briefly repointed to an AWS host serving the console
+at `/en`. For this repo to serve the domain again, the apex must resolve to
+GitHub Pages: `185.199.108-111.153` (A) and `2606:50c0:800{0..3}::153` (AAAA).
 
 **Carried as-is, on purpose:**
 
