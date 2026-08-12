@@ -39,6 +39,12 @@ test("items, services, contractors, import and booking expose working controls",
   assert.match(html, /\/common\/upload-media/);
 });
 
+test("catalogue uploads time out and clear an expired session", () => {
+  assert.match(html, /function callForm[\s\S]*AbortController/);
+  assert.match(html, /The upload timed out\. Please try again\./);
+  assert.match(html, /response\.status===401&&authToken/);
+});
+
 test("offline catalogue remains readable but never queues writes", () => {
   assert.match(html, /benyany_catalogue_cache_/);
   assert.match(html, /Offline · showing last sync/);

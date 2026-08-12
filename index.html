@@ -714,15 +714,16 @@ function call(url, o){
 }
 
 function callForm(url, form){
-  var h = { 'X-Contract-Version':'1' }, authToken=token();
+  var h = { 'X-Contract-Version':'1' }, authToken=token(),controller=typeof AbortController==='function'?new AbortController():null,timeout=controller?setTimeout(function(){controller.abort();},15000):null;
   if(authToken) h.Authorization='Bearer '+authToken;
-  return fetch(url,{method:'POST',headers:h,body:form}).then(function(response){
+  return fetch(url,{method:'POST',headers:h,body:form,signal:controller&&controller.signal}).then(function(response){
     return response.text().then(function(text){
       var data={};try{data=text?JSON.parse(text):{};}catch(_){throw new Error('The server returned an invalid response. Please try again.');}
-      if(!response.ok)throw new Error(data.message||('Request failed ('+response.status+')'));
+      if(response.status===401&&authToken){clearSession();showConsole(false);}
+      if(!response.ok){var failure=new Error(data.message||('Request failed ('+response.status+')'));failure.status=response.status;throw failure;}
       return data;
     });
-  });
+  }).catch(function(error){if(error&&error.name==='AbortError')throw new Error('The upload timed out. Please try again.');throw error;}).finally(function(){if(timeout)clearTimeout(timeout);});
 }
 
 function uploadCatalogueFile(file){
