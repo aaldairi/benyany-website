@@ -658,7 +658,8 @@ var EP = {
   commerceSettings: API + '/business-commerce-settings',
   importCheck: API + '/catalogue-imports/check',
   imports: API + '/catalogue-imports',
-  catalogueBulk: API + '/inventory-product/bulk'
+  catalogueBulk: API + '/inventory-product/bulk',
+  upload: API + '/common/upload-media'
 };
 function msgsUrl(id){
   return EP.msgsBase + '/' + encodeURIComponent(id) + '?limit=50&page=1';
@@ -705,6 +706,30 @@ function call(url, o){
       if(e&&e.name==='AbortError') throw new Error('The request timed out. Please try again.');
       throw new Error('Could not reach the server. The API may not allow browser requests from this domain (CORS).');
     }).finally(function(){ if(timeout) clearTimeout(timeout); });
+}
+
+function callForm(url, form){
+  var h = { 'X-Contract-Version':'1' }, authToken=token();
+  if(authToken) h.Authorization='Bearer '+authToken;
+  return fetch(url,{method:'POST',headers:h,body:form}).then(function(response){
+    return response.text().then(function(text){
+      var data={};try{data=text?JSON.parse(text):{};}catch(_){throw new Error('The server returned an invalid response. Please try again.');}
+      if(!response.ok)throw new Error(data.message||('Request failed ('+response.status+')'));
+      return data;
+    });
+  });
+}
+
+function uploadCatalogueFile(file){
+  if(!file||!file.size)return Promise.resolve('');
+  var form=new FormData();form.append('photo',file,file.name);
+  return callForm(EP.upload,form).then(function(response){
+    var value=response&&response.data&&response.data.url;
+    if(Array.isArray(value))value=value[0];
+    value=String(value||'').replace(/^\[|\]$/g,'').trim();
+    if(!value)throw new Error('The upload completed without a file URL.');
+    return value;
+  });
 }
 
 function clientMessageId(){
@@ -1112,8 +1137,9 @@ function loadCatalogue(){
     CAT.rows=Array.isArray(payload.data)?payload.data:[];
     var c=payload.counts||{};
     CAT.counts[CAT.kind]=Number(c.all!==undefined?c.all:payload.total_data||CAT.rows.length);Object.keys(c).forEach(function(k){CAT.counts[k]=Number(c[k]||0);});
+    try{sessionStorage.setItem('benyany_catalogue_cache_'+CAT.kind,JSON.stringify({rows:CAT.rows,counts:CAT.counts,savedAt:new Date().toISOString()}));}catch(_){}
     renderCatalogueTabs();renderCatalogueRows();
-  }).catch(function(error){$('cat-body').innerHTML='<div class="cat-empty"><span class="material-symbols-rounded">error_outline</span>'+esc(error.message||'Could not load the catalogue.')+'<br><button class="pill ghost bny-press" id="cat-retry" style="margin-top:14px">Retry</button></div>';var retry=$('cat-retry');if(retry)retry.addEventListener('click',loadCatalogue);});
+  }).catch(function(error){var cached=null;try{cached=JSON.parse(sessionStorage.getItem('benyany_catalogue_cache_'+CAT.kind)||'null');}catch(_){}if(cached&&Array.isArray(cached.rows)){CAT.rows=cached.rows;CAT.counts=cached.counts||CAT.counts;renderCatalogueTabs();renderCatalogueRows();$('cat-body').insertAdjacentHTML('afterbegin','<div class="cat-state blocked" style="margin:0 0 12px">Offline · showing last sync. Saving, importing and booking are unavailable.</div>');return;}$('cat-body').innerHTML='<div class="cat-empty"><span class="material-symbols-rounded">error_outline</span>'+esc(error.message||'Could not load the catalogue.')+'<br><button class="pill ghost bny-press" id="cat-retry" style="margin-top:14px">Retry</button></div>';var retry=$('cat-retry');if(retry)retry.addEventListener('click',loadCatalogue);});
 }
 function catalogueName(row){return CAT.kind==='contractors'?(row.name||'Untitled'):(row.productInfo&&row.productInfo.productName||'Untitled');}
 function catalogueSub(row){
@@ -1143,10 +1169,10 @@ function openCatalogueForm(row){
   CAT.edit=row||null;$('cat-form-title').textContent=(row?'Edit ':'Add ')+(CAT.kind==='items'?'item':CAT.kind==='services'?'service':'contractor');
   if(CAT.kind==='contractors'){
     var pricing=row&&row.pricing||{};
-    $('cat-fields').innerHTML=fieldHtml('name','Crew name',row&&row.name)+fieldHtml('trade','Trade',row&&row.trade)+fieldHtml('description','Description',row&&row.crewDescription,'textarea',true)+fieldHtml('pricingMode','Pricing',pricing.mode||'rate',null,false,[['rate','Published rate'],['quote','Quote only']])+fieldHtml('rate','Rate (BHD)',pricing.rate,'number')+fieldHtml('unit','Unit',pricing.unit||'day',null,false,[['day','Per day'],['sqm','Per sqm']])+fieldHtml('minimumBookingDays','Minimum booking days',row&&row.minimumBookingDays||1,'number')+fieldHtml('areas','Service areas',row&&row.areas&&row.areas.join(', '))+fieldHtml('certificateType','Certificate type',row&&row.certificates&&row.certificates[0]&&row.certificates[0].type)+fieldHtml('certificateUrl','Certificate URL',row&&row.certificates&&row.certificates[0]&&row.certificates[0].document&&row.certificates[0].document.url)+fieldHtml('certificateExpiry','Certificate expiry',row&&row.certificates&&row.certificates[0]&&String(row.certificates[0].expiresAt||'').slice(0,10),'date')+fieldHtml('publicationStatus','Status',row&&row.publicationStatus||'draft',null,false,[['draft','Draft'],['live','Live'],['hidden','Hidden'],['withdrawn','Withdrawn']])+(row?'<div class="cat-field full" style="background:var(--s2);padding:14px;border-radius:14px"><label>Booking calendar</label><div style="display:flex;gap:8px;align-items:end"><input id="book-start" type="date" style="flex:1"><input id="book-end" type="date" style="flex:1"><button type="button" class="pill dark" id="book-check">Check & hold</button></div><div id="book-status" class="cat-sub" style="margin-top:8px">Booked days cannot be double-sold. Holds last 48 hours.</div></div>':'');
+    $('cat-fields').innerHTML=fieldHtml('name','Crew name',row&&row.name)+fieldHtml('trade','Trade',row&&row.trade)+fieldHtml('description','Description',row&&row.crewDescription,'textarea',true)+fieldHtml('pricingMode','Pricing',pricing.mode||'rate',null,false,[['rate','Published rate'],['quote','Quote only']])+fieldHtml('rate','Rate (BHD)',pricing.rate,'number')+fieldHtml('unit','Unit',pricing.unit||'day',null,false,[['day','Per day'],['sqm','Per sqm']])+fieldHtml('minimumBookingDays','Minimum booking days',row&&row.minimumBookingDays||1,'number')+fieldHtml('areas','Service areas',row&&row.areas&&row.areas.join(', '))+fieldHtml('certificateType','Certificate type',row&&row.certificates&&row.certificates[0]&&row.certificates[0].type,null,false,[['Trade licence','Trade licence'],['Third-party liability','Third-party liability'],['Working at height','Working at height'],['Hot works permit','Hot works permit'],['First aid at work','First aid at work']])+'<div class="cat-field"><label>Certificate file</label><input name="certificateFile" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><input name="certificateUrl" type="hidden" value="'+esc(row&&row.certificates&&row.certificates[0]&&row.certificates[0].document&&row.certificates[0].document.url||'')+'"></div>'+fieldHtml('certificateExpiry','Certificate expiry',row&&row.certificates&&row.certificates[0]&&String(row.certificates[0].expiresAt||'').slice(0,10),'date')+fieldHtml('publicationStatus','Status',row&&row.publicationStatus||'draft',null,false,[['draft','Draft'],['live','Live'],['hidden','Hidden'],['withdrawn','Withdrawn']])+(row?'<div class="cat-field full" style="background:var(--s2);padding:14px;border-radius:14px"><label>Booking calendar</label><div style="display:flex;gap:8px;align-items:end"><input id="book-start" type="date" style="flex:1"><input id="book-end" type="date" style="flex:1"><button type="button" class="pill dark" id="book-check">Check & hold</button></div><div id="book-status" class="cat-sub" style="margin-top:8px">Booked days cannot be double-sold. Holds last 48 hours.</div></div>':'');
   }else{
     var info=row&&row.productInfo||{},pricing2=row&&row.pricing||{};
-    $('cat-fields').innerHTML=fieldHtml('name',CAT.kind==='items'?'Item name':'Service name',info.productName)+fieldHtml('sku','SKU / code',info.skuOrCode)+fieldHtml('description','Description',row&&row.description,'textarea',true)+fieldHtml('price','Price (BHD)',pricing2.finalPrice,'number')+fieldHtml('coverUrl','Cover photo URL',row&&row.productImages&&row.productImages[0]&&row.productImages[0].url)+fieldHtml('imageFit','Photo display',row&&row.imageFit||'fill',null,false,[['fill','Fill · cropped'],['fit','Fit · padded']])+fieldHtml('pricingModel','Pricing model',row&&row.pricingModel||(CAT.kind==='services'?'fixed':'per_unit'),null,false,CAT.kind==='services'?[['fixed','Fixed'],['per_area','Per sqm'],['per_unit','Per unit'],['day_rate','Day rate'],['package','Package'],['quote','Request a quote']]:[['per_unit','Per unit'],['fixed','Fixed'],['quote','Request a quote']])+fieldHtml('publicationStatus','Status',row&&row.publicationStatus||'draft',null,false,[['draft','Draft'],['live','Live'],['hidden','Hidden'],['withdrawn','Withdrawn']]);
+    $('cat-fields').innerHTML=fieldHtml('name',CAT.kind==='items'?'Item name':'Service name',info.productName)+fieldHtml('sku','SKU / code',info.skuOrCode)+fieldHtml('description','Description',row&&row.description,'textarea',true)+fieldHtml('price','Price (BHD)',pricing2.finalPrice,'number')+'<div class="cat-field"><label>Cover photo</label><input name="coverFile" type="file" accept=".jpg,.jpeg,.png,image/jpeg,image/png"><input name="coverUrl" type="hidden" value="'+esc(row&&row.productImages&&row.productImages[0]&&row.productImages[0].url||'')+'"></div>'+fieldHtml('imageFit','Photo display',row&&row.imageFit||'fill',null,false,[['fill','Fill · cropped'],['fit','Fit · padded']])+fieldHtml('pricingModel','Pricing model',row&&row.pricingModel||(CAT.kind==='services'?'fixed':'per_unit'),null,false,CAT.kind==='services'?[['fixed','Fixed'],['per_area','Per sqm'],['per_unit','Per unit'],['day_rate','Day rate'],['package','Package'],['quote','Request a quote']]:[['per_unit','Per unit'],['fixed','Fixed'],['quote','Request a quote']])+fieldHtml('publicationStatus','Status',row&&row.publicationStatus||'draft',null,false,[['draft','Draft'],['live','Live'],['hidden','Hidden'],['withdrawn','Withdrawn']]);
   }
   err('cat-error','');$('cat-modal').classList.add('on');
   var bookCheck=$('book-check');if(bookCheck)bookCheck.addEventListener('click',checkAndHoldWebBooking);
@@ -1160,8 +1186,11 @@ function loadWebCommerceSettings(){
 function saveWebCommerceSettings(event){event.preventDefault();var form=event.currentTarget,fd=new FormData(form),body={revision:Number(CAT.settings&&CAT.settings.revision||1),store:{visible:fd.has('visible'),showOutOfStock:fd.has('showOutOfStock'),samplesEnabled:fd.has('samplesEnabled'),finderEnabled:fd.has('finderEnabled')},quoting:{validityDays:Number(fd.get('validityDays')||14),defaultMarginPercent:Number(fd.get('defaultMarginPercent')||0),discountCeilingPercent:Number(fd.get('discountCeilingPercent')||0),vatPercent:Number(fd.get('vatPercent')||10)},delivery:{defaultLeadTimeDays:Number(fd.get('defaultLeadTimeDays')||0),installationOffered:fd.has('installationOffered'),zones:String(fd.get('zones')||'').split(',').map(function(x){return x.trim();}).filter(Boolean),notes:String(fd.get('notes')||'').trim()}};call(EP.commerceSettings,{method:'PUT',body:body}).then(function(){toast('Commerce settings saved');loadWebCommerceSettings();}).catch(function(error){var el=$('rules-error');el.textContent=error.message||'Could not save settings.';el.classList.add('on');});}
 function catalogueFormValues(){var values={};new FormData($('cat-form')).forEach(function(value,key){values[key]=String(value).trim();});return values;}
 function saveCatalogue(event){
-  event.preventDefault();var v=catalogueFormValues(),body;
+  event.preventDefault();var v=catalogueFormValues(),body,form=event.currentTarget,fileInput=form.querySelector('input[type="file"]'),file=fileInput&&fileInput.files&&fileInput.files[0],urlField=CAT.kind==='contractors'?'certificateUrl':'coverUrl';
   if(!v.name){err('cat-error','Name is required.');return;}
+  $('cat-save').disabled=true;
+  uploadCatalogueFile(file).then(function(uploadedUrl){
+  if(uploadedUrl)v[urlField]=uploadedUrl;
   if(CAT.kind==='contractors'){
     if(!v.trade||!v.description){err('cat-error','Trade and description are required.');return;}
     body={name:v.name,trade:v.trade,crewDescription:v.description,pricing:{mode:v.pricingMode,rate:v.pricingMode==='rate'?Number(v.rate):null,unit:v.pricingMode==='rate'?v.unit:null},minimumBookingDays:Number(v.minimumBookingDays||1),areas:v.areas.split(',').map(function(x){return x.trim();}).filter(Boolean),publicationStatus:v.publicationStatus,certificates:v.certificateUrl?[{type:v.certificateType||'Certificate',document:{url:v.certificateUrl,fileName:v.certificateUrl.split('/').pop()||'certificate',fileType:'document'},expiresAt:v.certificateExpiry,required:true}]:[]};
@@ -1169,7 +1198,8 @@ function saveCatalogue(event){
   }else{
     body={productImages:v.coverUrl?[{url:v.coverUrl,fileName:v.coverUrl.split('/').pop()||'cover',fileType:'image'}]:[],productInfo:{productName:v.name,skuOrCode:v.sku},description:v.description,typeOfProduct:CAT.kind==='items'?'product':'service',pricing:{sellingPrice:v.price===''?null:Number(v.price),finalPrice:v.price===''?null:Number(v.price),discountPercent:0},pricingModel:v.pricingModel,imageFit:v.imageFit,publicationStatus:v.publicationStatus};if(CAT.edit){body._id=CAT.edit._id;body.managementRevision=CAT.edit.managementRevision||1;}
   }
-  $('cat-save').disabled=true;call(CAT.kind==='contractors'?EP.contractors:EP.catalogueSave,{method:'POST',body:body}).then(function(){$('cat-modal').classList.remove('on');loadCatalogue();}).catch(function(error){err('cat-error',error.message||'Could not save this record.');}).then(function(){$('cat-save').disabled=false;});
+  return call(CAT.kind==='contractors'?EP.contractors:EP.catalogueSave,{method:'POST',body:body});
+  }).then(function(){$('cat-modal').classList.remove('on');loadCatalogue();}).catch(function(error){err('cat-error',(error.status===409?'Not saved — this record changed elsewhere. Your edits are still here. ': '')+(error.message||'Could not save this record.'));}).then(function(){$('cat-save').disabled=false;});
 }
 $('cat-add').addEventListener('click',function(){openCatalogueForm(null);});
 $('cat-import').addEventListener('click',function(){$('cat-import-file').click();});

@@ -34,4 +34,19 @@ test("items, services, contractors, import and booking expose working controls",
   assert.match(html, /Check & hold/);
   assert.match(html, /Holds last 48 hours/);
   assert.match(html, /certificateExpiry/);
+  assert.match(html, /name="certificateFile" type="file"/);
+  assert.match(html, /name="coverFile" type="file"/);
+  assert.match(html, /\/common\/upload-media/);
+});
+
+test("offline catalogue remains readable but never queues writes", () => {
+  assert.match(html, /benyany_catalogue_cache_/);
+  assert.match(html, /Offline · showing last sync/);
+  assert.match(html, /Saving, importing and booking are unavailable/);
+  assert.doesNotMatch(html, /offlineQueue|queueWrite|pendingWrites/);
+});
+
+test("optimistic conflicts preserve edits and name the save failure", () => {
+  assert.match(html, /error\.status===409/);
+  assert.match(html, /Not saved — this record changed elsewhere\. Your edits are still here\./);
 });
