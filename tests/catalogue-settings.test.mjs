@@ -1,0 +1,37 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import test from "node:test";
+
+const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
+
+test("Settings owns the business catalogue and never routes it through Browse", () => {
+  assert.match(html, /aria-label="Settings and catalogue"/);
+  assert.match(html, /Items/);
+  assert.match(html, /Services/);
+  assert.match(html, /Contractors/);
+  assert.match(html, /Store rules/);
+  assert.doesNotMatch(html, /CAT\.kind[\s\S]{0,200}Browse/);
+});
+
+test("catalogue actions use authenticated production endpoints with no demo rows", () => {
+  for (const endpoint of [
+    "/inventory-product/get",
+    "/inventory-product/create",
+    "/inventory-product/bulk",
+    "/contractor-crews",
+    "/business-commerce-settings",
+    "/catalogue-imports/check",
+  ]) assert.match(html, new RegExp(endpoint.replaceAll("/", "\\/")));
+  assert.match(html, /Authorization.*Bearer/);
+  assert.match(html, /No demo records are used/);
+});
+
+test("items, services, contractors, import and booking expose working controls", () => {
+  assert.match(html, /data-bulk="price"/);
+  assert.match(html, /data-bulk="publish"/);
+  assert.match(html, /data-bulk="export"/);
+  assert.match(html, /accept="\.csv,text\/csv"/);
+  assert.match(html, /Check & hold/);
+  assert.match(html, /Holds last 48 hours/);
+  assert.match(html, /certificateExpiry/);
+});

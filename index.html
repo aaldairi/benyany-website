@@ -13,7 +13,7 @@
      The full variable font is ~5.7 MB; icon_names returns only these glyphs,
      a few KB. If a new icon is added it MUST be appended here or it renders as
      its ligature text. -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,arrow_back,arrow_back_ios_new,arrow_upward,auto_awesome,bolt,check_circle,chevron_right,close,delete,description,download,error,error_outline,event,forum,groups,help,image,inbox,info,inventory_2,lock,logout,mic,mood,person,photo_camera,receipt_long,refresh,request_quote,search,send,storefront,trending_up,unknown_document,warning&display=block" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=add,arrow_back,arrow_back_ios_new,arrow_upward,auto_awesome,bolt,check_circle,chevron_right,close,delete,description,download,engineering,error,error_outline,event,forum,groups,handyman,help,image,inbox,info,inventory_2,lock,logout,mic,mood,person,photo_camera,receipt_long,refresh,request_quote,search,send,settings,storefront,trending_up,unknown_document,warning&display=block" rel="stylesheet">
 <style>
   /* ---------------------------------------------------------------
      Every value below is read out of the isProDesktop branch of
@@ -507,6 +507,45 @@
     .line textarea.desc,.line-photo-row{grid-column:1 / -1}
     .bd-pdf{padding:0 12px}.bd-send{padding:0 16px}
   }
+
+  /* Settings-owned What We Sell workspace from the final catalogue handoff. */
+  .catalogue-workspace{position:absolute;inset:0 0 0 84px;z-index:90;background:var(--canvas);
+    display:none;flex-direction:column;overflow:hidden}
+  .catalogue-workspace.on{display:flex}
+  .cat-head{height:76px;flex-shrink:0;background:var(--elev);border-bottom:1px solid var(--b1);
+    display:flex;align-items:center;padding:0 28px;gap:16px}
+  .cat-head h1{font-size:22px;letter-spacing:-.5px}.cat-head p{font-size:12.5px;color:var(--ts);margin-top:2px}
+  .cat-tabs{display:flex;align-items:center;gap:8px;padding:18px 28px 0;overflow:auto}
+  .cat-tab{height:40px;padding:0 18px;border-radius:999px;background:var(--elev);border:1px solid var(--b2);
+    font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;white-space:nowrap}
+  .cat-tab.on{background:#181943;color:#fff;border-color:#181943}.cat-tab small{opacity:.68}
+  .cat-tools{display:flex;align-items:center;gap:10px;padding:16px 28px}
+  .cat-filters{display:flex;gap:7px;padding:0 28px 14px;overflow:auto}.cat-filter{height:32px;padding:0 12px;border-radius:999px;border:1px solid var(--b2);background:var(--elev);font-size:11.5px;font-weight:600;white-space:nowrap}.cat-filter.on{background:#181943;color:#fff}
+  .cat-bulk{display:none;align-items:center;gap:8px;padding:0 28px 14px}.cat-bulk.on{display:flex}.cat-bulk span{font-size:12px;color:var(--ts);margin-right:auto}.cat-bulk button{height:32px;padding:0 12px;border:1px solid var(--b2);border-radius:999px;background:var(--elev);font-size:11.5px;font-weight:600}.cat-bulk .danger{color:#E03A2F}
+  .cat-search{height:42px;max-width:520px;flex:1;border-radius:13px;background:var(--elev);border:1px solid var(--b1);
+    display:flex;align-items:center;gap:9px;padding:0 13px}
+  .cat-search input{border:0;outline:0;background:transparent;min-width:0;flex:1;color:var(--tp);font-size:13px}
+  .cat-action{height:42px;padding:0 17px;border-radius:999px;background:var(--yellow);color:var(--on-pri);font-weight:700}
+  .cat-body{flex:1;overflow:auto;padding:0 28px 30px}
+  .cat-table{background:var(--elev);border:1px solid var(--b1);border-radius:18px;overflow:hidden}
+  .cat-row{display:grid;grid-template-columns:26px minmax(220px,1fr) 170px 150px 110px 28px;gap:16px;align-items:center;
+    min-height:72px;padding:12px 18px;border-bottom:1px solid var(--b1);cursor:pointer}
+  .cat-row:last-child{border-bottom:0}.cat-row:hover{background:var(--s1)}
+  .cat-name{font-size:14px;font-weight:600}.cat-sub{font-size:11.5px;color:var(--ts);margin-top:3px}
+  .cat-price{font-size:13px;font-weight:600}.cat-state{display:inline-flex;width:max-content;padding:4px 9px;border-radius:999px;
+    background:var(--s2);font-size:10.5px;font-weight:700}.cat-state.live{background:var(--tint-success);color:var(--tpur)}
+  .cat-state.blocked{background:var(--tint-warning);color:var(--amber-tx)}
+  .cat-empty{padding:70px 20px;text-align:center;color:var(--ts);font-size:13px}
+  .cat-empty .material-symbols-rounded{display:block;font-size:38px;margin-bottom:10px;color:var(--tt)}
+  .cat-modal{position:fixed;inset:0;z-index:210;background:rgba(24,25,67,.32);display:none;place-items:center;padding:24px}
+  .cat-modal.on{display:grid}.cat-card{width:min(620px,100%);max-height:90vh;overflow:auto;background:var(--elev);border-radius:20px;padding:24px}
+  .cat-card h2{font-size:19px;margin-bottom:4px}.cat-card>p{font-size:12px;color:var(--ts);margin-bottom:18px}
+  .cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cat-field.full{grid-column:1/-1}
+  .cat-field label{display:block;font-size:10.5px;font-weight:700;color:var(--tt);margin:0 0 5px 2px;text-transform:uppercase}
+  .cat-field input,.cat-field textarea,.cat-field select{width:100%;border:1px solid var(--b2);border-radius:12px;background:var(--canvas);
+    padding:11px 12px;color:var(--tp);outline:none;font:inherit;font-size:13px}.cat-field textarea{min-height:84px;resize:vertical}
+  .cat-foot{display:flex;justify-content:flex-end;gap:10px;margin-top:20px}.cat-foot button{height:42px;padding:0 18px;border-radius:999px;font-weight:700}
+  @media(max-width:760px){.catalogue-workspace{left:64px}.cat-head,.cat-tabs,.cat-tools,.cat-filters,.cat-bulk,.cat-body{padding-left:14px;padding-right:14px}.cat-row{grid-template-columns:26px 1fr 90px 24px}.cat-row>:nth-child(3),.cat-row>:nth-child(5){display:none}.cat-grid{grid-template-columns:1fr}.cat-field.full{grid-column:auto}}
 </style>
 </head>
 <body>
@@ -583,6 +622,17 @@
 
   <!-- §10 Create offer — a full page over the console, per proIsRequestPage -->
   <div id="builder"></div>
+
+  <section class="catalogue-workspace" id="catalogue-workspace" aria-label="Settings and catalogue">
+    <header class="cat-head"><div><h1>Settings</h1><p>Business, commerce and account</p></div><span style="flex:1"></span><button class="iconbtn bny-press" id="cat-signout" title="Sign out"><span class="material-symbols-rounded">logout</span></button></header>
+    <nav class="cat-tabs" id="cat-tabs"></nav>
+    <div class="cat-tools"><div class="cat-search"><span class="material-symbols-rounded">search</span><input id="cat-q" placeholder="Search name or SKU"></div><button class="pill ghost bny-press" id="cat-import">Import CSV</button><button class="cat-action bny-press" id="cat-add">+ Add item</button></div>
+    <div class="cat-filters" id="cat-filters"></div>
+    <div class="cat-bulk" id="cat-bulk"><span id="cat-selected">0 selected</span><button data-bulk="price">Change price</button><button data-bulk="publish">Publish</button><button data-bulk="hide">Hide</button><button data-bulk="export">Export CSV</button><button class="danger" data-bulk="delete">Delete</button></div>
+    <main class="cat-body" id="cat-body"></main>
+  </section>
+  <div class="cat-modal" id="cat-modal"><form class="cat-card" id="cat-form"><h2 id="cat-form-title">Add item</h2><p>Saved to your business catalogue. No demo records are used.</p><div class="cat-grid" id="cat-fields"></div><div id="cat-error" class="si-err"></div><div class="cat-foot"><button type="button" class="pill ghost" id="cat-cancel">Cancel</button><button type="submit" class="cat-action" id="cat-save">Save</button></div></form></div>
+  <input id="cat-import-file" type="file" accept=".csv,text/csv" hidden>
 </div>
 
 <script>
@@ -601,7 +651,14 @@ var EP = {
   // the console showed. /chat/get-chat/{id} exists (401 unauth).
   msgsBase: API + '/chat/get-chat',
   sendMessage: API + '/chat/create',
-  createMeeting: API + '/meeting/create'
+  createMeeting: API + '/meeting/create',
+  catalogue: API + '/inventory-product/get',
+  catalogueSave: API + '/inventory-product/create',
+  contractors: API + '/contractor-crews',
+  commerceSettings: API + '/business-commerce-settings',
+  importCheck: API + '/catalogue-imports/check',
+  imports: API + '/catalogue-imports',
+  catalogueBulk: API + '/inventory-product/bulk'
 };
 function msgsUrl(id){
   return EP.msgsBase + '/' + encodeURIComponent(id) + '?limit=50&page=1';
@@ -611,6 +668,7 @@ var UID = 'benyany_pro_uid';   // the signed-in user id, for in/out attribution
 var NOTE_PREFIX = 'benyany_note_';
 var $ = function(i){ return document.getElementById(i); };
 var S = { phone:'', chats:[], active:null, filter:'all', q:'', rail:'chat' };
+var CAT = { kind:'items', rows:[], counts:{}, q:'', edit:null, filter:'all', selected:{} };
 
 function token(){ try{ return sessionStorage.getItem(TK)||''; }catch(e){ return ''; } }
 function setToken(t){ try{ t?sessionStorage.setItem(TK,t):sessionStorage.removeItem(TK); }catch(e){} }
@@ -962,7 +1020,8 @@ var RAIL = [
   {k:'tkt',  icon:'unknown_document', label:'Tickets',       badge:1},
   {k:'mtg',  icon:'event',            label:'Meetings',      badge:0},
   {k:'inv',  icon:'receipt_long',     label:'Invoices',      badge:0},
-  {k:'team', icon:'groups',           label:'Our team',      badge:0}
+  {k:'team', icon:'groups',           label:'Our team',      badge:0},
+  {k:'settings', icon:'settings',     label:'Settings',      badge:0}
 ];
 function renderRail(){
   var live = S.chats.filter(function(c){
@@ -972,10 +1031,7 @@ function renderRail(){
   $('rail').innerHTML = RAIL.map(function(n){
     var badge = n.badge === null ? live : n.badge;
     var active = n.k === S.rail;
-    // Only Conversations is implemented in this web console. The rest are
-    // DISABLED (not fake toasts): dimmed, not-allowed, aria-disabled, with a
-    // tooltip. QA item 3.
-    var enabled = n.k === 'chat';
+    var enabled = n.k === 'chat' || n.k === 'settings';
     var bg = active ? 'rgba(250,248,243,.14)' : 'transparent';
     var fg = active ? '#FFD900' : (enabled ? 'rgba(250,248,243,.62)' : 'rgba(250,248,243,.30)');
     return '<span class="item'+(enabled?' bny-press':'')+'" role="button" tabindex="0" '+
@@ -991,9 +1047,8 @@ function renderRail(){
   });
 }
 
-/* Conversations is the only section this web console implements. A disabled
-   section shows a clear INLINE explanation in the list pane (not a floating
-   "opens in the app" toast — QA item 3) and does not change the view. */
+/* Disabled legacy sections explain their state inline. Conversations and the
+   Settings-owned catalogue are implemented web workspaces. */
 function selectRail(k, disabled){
   if (disabled){
     var name = (RAIL.filter(function(r){ return r.k === k; })[0] || {}).label || 'That section';
@@ -1001,6 +1056,9 @@ function selectRail(k, disabled){
     return;
   }
   S.rail = k; railNotice(''); renderRail();
+  var catalogue=$('catalogue-workspace');
+  catalogue.classList.toggle('on',k==='settings');
+  if(k==='settings'){ renderCatalogueTabs(); loadCatalogue(); }
 }
 
 /* A persistent inline note pinned under the inbox header. */
@@ -1020,6 +1078,118 @@ function railNotice(msg){
   host.insertBefore(el, rows);
   setTimeout(function(){ var n=document.getElementById('rail-notice'); if(n) n.remove(); }, 5000);
 }
+
+/* -------------------- Settings / What We Sell -------------------- */
+var CAT_TABS=[
+  {k:'items',label:'Items',icon:'inventory_2'},
+  {k:'services',label:'Services',icon:'handyman'},
+  {k:'contractors',label:'Contractors',icon:'engineering'},
+  {k:'rules',label:'Store rules',icon:'storefront'}
+];
+function renderCatalogueTabs(){
+  $('cat-tabs').innerHTML=CAT_TABS.map(function(tab){
+    return '<button class="cat-tab bny-press'+(CAT.kind===tab.k?' on':'')+'" data-cat="'+tab.k+'"><span class="material-symbols-rounded">'+tab.icon+'</span>'+tab.label+' <small>'+Number(CAT.counts[tab.k]||0)+'</small></button>';
+  }).join('');
+  $('cat-tabs').querySelectorAll('[data-cat]').forEach(function(button){button.addEventListener('click',function(){CAT.kind=button.dataset.cat;CAT.edit=null;CAT.filter='all';CAT.selected={};renderCatalogueTabs();loadCatalogue();});});
+  $('cat-add').style.display=CAT.kind==='rules'?'none':'';
+  $('cat-import').style.display=CAT.kind==='rules'||CAT.kind==='contractors'?'none':'';
+  $('cat-q').parentElement.style.display=CAT.kind==='rules'?'none':'';
+  $('cat-add').textContent='+ Add '+(CAT.kind==='items'?'item':CAT.kind==='services'?'service':'contractor');
+  $('cat-q').placeholder=CAT.kind==='items'?'Search name or SKU':'Search '+CAT.kind;
+  renderCatalogueFilters();renderBulkBar();
+}
+function renderCatalogueFilters(){var host=$('cat-filters');if(CAT.kind==='rules'||CAT.kind==='contractors'){host.innerHTML='';host.style.display='none';return;}host.style.display='flex';var labels={all:'All',live:'Live',draft:'Draft',hidden:'Hidden',noprice:'Needs price'};host.innerHTML=Object.keys(labels).map(function(k){return '<button class="cat-filter'+(CAT.filter===k?' on':'')+'" data-cat-filter="'+k+'">'+labels[k]+' '+Number(CAT.counts[k]||0)+'</button>';}).join('');host.querySelectorAll('[data-cat-filter]').forEach(function(button){button.addEventListener('click',function(){CAT.filter=button.dataset.catFilter;CAT.selected={};loadCatalogue();});});}
+function renderBulkBar(){var keys=Object.keys(CAT.selected);$('cat-bulk').classList.toggle('on',keys.length>0);$('cat-selected').textContent=keys.length+' selected';}
+function catalogueEndpoint(){
+  if(CAT.kind==='contractors') return EP.contractors+'?limit=100&page=1&search='+encodeURIComponent(CAT.q)+'&status=all';
+  return EP.catalogue+'?limit=100&page=1&type='+(CAT.kind==='items'?'product':'service')+'&status='+encodeURIComponent(CAT.filter)+'&sort=updated&direction=desc&search='+encodeURIComponent(CAT.q);
+}
+function loadCatalogue(){
+  if(CAT.kind==='rules'){ loadWebCommerceSettings(); return; }
+  $('cat-body').innerHTML='<div class="cat-empty">Loading…</div>';
+  call(catalogueEndpoint()).then(function(response){
+    var payload=response&&response.data||{};
+    CAT.rows=Array.isArray(payload.data)?payload.data:[];
+    var c=payload.counts||{};
+    CAT.counts[CAT.kind]=Number(c.all!==undefined?c.all:payload.total_data||CAT.rows.length);Object.keys(c).forEach(function(k){CAT.counts[k]=Number(c[k]||0);});
+    renderCatalogueTabs();renderCatalogueRows();
+  }).catch(function(error){$('cat-body').innerHTML='<div class="cat-empty"><span class="material-symbols-rounded">error_outline</span>'+esc(error.message||'Could not load the catalogue.')+'<br><button class="pill ghost bny-press" id="cat-retry" style="margin-top:14px">Retry</button></div>';var retry=$('cat-retry');if(retry)retry.addEventListener('click',loadCatalogue);});
+}
+function catalogueName(row){return CAT.kind==='contractors'?(row.name||'Untitled'):(row.productInfo&&row.productInfo.productName||'Untitled');}
+function catalogueSub(row){
+  if(CAT.kind==='contractors') return (row.trade||'No trade')+' · '+(row.areas&&row.areas.length?row.areas.join(', '):'No service area');
+  var sku=row.productInfo&&row.productInfo.skuOrCode; return sku?'SKU '+sku:(row.code?'Code '+row.code:'No SKU');
+}
+function cataloguePrice(row){
+  if(CAT.kind==='contractors') return row.pricing&&row.pricing.mode==='rate'?'BHD '+Number(row.pricing.rate||0).toFixed(3)+' / '+(row.pricing.unit||'day'):'Quote only';
+  var p=row.pricing&&row.pricing.finalPrice;return p===null||p===undefined?'Price required':'BHD '+Number(p).toFixed(3);
+}
+function catalogueState(row){
+  if(CAT.kind==='contractors') return row.bookable?{l:'Bookable',c:'live'}:{l:row.publicationStatus==='draft'?'Draft':'Blocked',c:'blocked'};
+  var state=row.publicationStatus||((row.pricing&&row.pricing.finalPrice)!=null?'live':'draft');return {l:state==='live'?'Live':state.charAt(0).toUpperCase()+state.slice(1),c:state==='live'?'live':(state==='draft'?'blocked':'')};
+}
+function renderCatalogueRows(){
+  if(!CAT.rows.length){$('cat-body').innerHTML='<div class="cat-empty"><span class="material-symbols-rounded">'+(CAT.kind==='contractors'?'engineering':CAT.kind==='services'?'handyman':'inventory_2')+'</span>No '+CAT.kind+' yet.<br>Add the first record for your business.</div>';return;}
+  $('cat-body').innerHTML='<div class="cat-table">'+CAT.rows.map(function(row,index){var state=catalogueState(row),id=String(row._id||'');return '<div class="cat-row" data-cat-row="'+index+'"><input type="checkbox" data-cat-select="'+esc(id)+'" '+(CAT.selected[id]?'checked':'')+' aria-label="Select '+esc(catalogueName(row))+'"><div><div class="cat-name">'+esc(catalogueName(row))+'</div><div class="cat-sub">'+esc(catalogueSub(row))+'</div></div><div class="cat-price">'+esc(cataloguePrice(row))+'</div><div><span class="cat-state '+state.c+'">'+esc(state.l)+'</span></div><div class="cat-sub">'+esc(row.updatedAt?new Date(row.updatedAt).toLocaleDateString():'')+'</div><span class="material-symbols-rounded">chevron_right</span></div>';}).join('')+'</div>';
+  $('cat-body').querySelectorAll('[data-cat-row]').forEach(function(row){row.addEventListener('click',function(event){if(event.target.matches('[data-cat-select]'))return;openCatalogueForm(CAT.rows[+row.dataset.catRow]);});});$('cat-body').querySelectorAll('[data-cat-select]').forEach(function(box){box.addEventListener('change',function(){box.checked?CAT.selected[box.dataset.catSelect]=true:delete CAT.selected[box.dataset.catSelect];renderBulkBar();});});
+}
+function csvDownload(rows,name){var fields=['sku','name','description','price','status','type'],q=function(v){return '"'+String(v==null?'':v).replace(/"/g,'""')+'"';},lines=[fields.map(q).join(',')].concat(rows.map(function(row){return fields.map(function(k){return q(row[k]);}).join(',');})),blob=new Blob([lines.join('\n')],{type:'text/csv'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name||'benyany-catalogue.csv';a.click();setTimeout(function(){URL.revokeObjectURL(url);},1000);}
+function runCatalogueBulk(action){var ids=Object.keys(CAT.selected),body={ids:ids,action:action};if(!ids.length)return;if(action==='price'){var raw=prompt('Change price by percentage. Use a negative number to reduce.','0'),value=Number(raw);if(raw===null)return;if(!Number.isFinite(value)){toast('Enter a valid percentage');return;}body.mode='percent';body.value=value;}if(action==='delete'&&!confirm('Remove '+ids.length+' selected records? Records used in live quotations will be withdrawn, not erased.'))return;call(EP.catalogueBulk,{method:'POST',body:body}).then(function(response){if(action==='export')csvDownload(response.data&&response.data.rows||[]);else toast(response.message||'Catalogue updated');CAT.selected={};loadCatalogue();}).catch(function(error){toast(error.message||'Bulk action failed');});}
+function fieldHtml(name,label,value,type,full,options){
+  var input=options?'<select name="'+name+'">'+options.map(function(o){return '<option value="'+esc(o[0])+'"'+(String(value)===o[0]?' selected':'')+'>'+esc(o[1])+'</option>';}).join('')+'</select>':type==='textarea'?'<textarea name="'+name+'">'+esc(value||'')+'</textarea>':'<input name="'+name+'" type="'+(type||'text')+'" value="'+esc(value==null?'':value)+'">';
+  return '<div class="cat-field'+(full?' full':'')+'"><label>'+esc(label)+'</label>'+input+'</div>';
+}
+function openCatalogueForm(row){
+  CAT.edit=row||null;$('cat-form-title').textContent=(row?'Edit ':'Add ')+(CAT.kind==='items'?'item':CAT.kind==='services'?'service':'contractor');
+  if(CAT.kind==='contractors'){
+    var pricing=row&&row.pricing||{};
+    $('cat-fields').innerHTML=fieldHtml('name','Crew name',row&&row.name)+fieldHtml('trade','Trade',row&&row.trade)+fieldHtml('description','Description',row&&row.crewDescription,'textarea',true)+fieldHtml('pricingMode','Pricing',pricing.mode||'rate',null,false,[['rate','Published rate'],['quote','Quote only']])+fieldHtml('rate','Rate (BHD)',pricing.rate,'number')+fieldHtml('unit','Unit',pricing.unit||'day',null,false,[['day','Per day'],['sqm','Per sqm']])+fieldHtml('minimumBookingDays','Minimum booking days',row&&row.minimumBookingDays||1,'number')+fieldHtml('areas','Service areas',row&&row.areas&&row.areas.join(', '))+fieldHtml('certificateType','Certificate type',row&&row.certificates&&row.certificates[0]&&row.certificates[0].type)+fieldHtml('certificateUrl','Certificate URL',row&&row.certificates&&row.certificates[0]&&row.certificates[0].document&&row.certificates[0].document.url)+fieldHtml('certificateExpiry','Certificate expiry',row&&row.certificates&&row.certificates[0]&&String(row.certificates[0].expiresAt||'').slice(0,10),'date')+fieldHtml('publicationStatus','Status',row&&row.publicationStatus||'draft',null,false,[['draft','Draft'],['live','Live'],['hidden','Hidden'],['withdrawn','Withdrawn']])+(row?'<div class="cat-field full" style="background:var(--s2);padding:14px;border-radius:14px"><label>Booking calendar</label><div style="display:flex;gap:8px;align-items:end"><input id="book-start" type="date" style="flex:1"><input id="book-end" type="date" style="flex:1"><button type="button" class="pill dark" id="book-check">Check & hold</button></div><div id="book-status" class="cat-sub" style="margin-top:8px">Booked days cannot be double-sold. Holds last 48 hours.</div></div>':'');
+  }else{
+    var info=row&&row.productInfo||{},pricing2=row&&row.pricing||{};
+    $('cat-fields').innerHTML=fieldHtml('name',CAT.kind==='items'?'Item name':'Service name',info.productName)+fieldHtml('sku','SKU / code',info.skuOrCode)+fieldHtml('description','Description',row&&row.description,'textarea',true)+fieldHtml('price','Price (BHD)',pricing2.finalPrice,'number')+fieldHtml('coverUrl','Cover photo URL',row&&row.productImages&&row.productImages[0]&&row.productImages[0].url)+fieldHtml('imageFit','Photo display',row&&row.imageFit||'fill',null,false,[['fill','Fill · cropped'],['fit','Fit · padded']])+fieldHtml('pricingModel','Pricing model',row&&row.pricingModel||(CAT.kind==='services'?'fixed':'per_unit'),null,false,CAT.kind==='services'?[['fixed','Fixed'],['per_area','Per sqm'],['per_unit','Per unit'],['day_rate','Day rate'],['package','Package'],['quote','Request a quote']]:[['per_unit','Per unit'],['fixed','Fixed'],['quote','Request a quote']])+fieldHtml('publicationStatus','Status',row&&row.publicationStatus||'draft',null,false,[['draft','Draft'],['live','Live'],['hidden','Hidden'],['withdrawn','Withdrawn']]);
+  }
+  err('cat-error','');$('cat-modal').classList.add('on');
+  var bookCheck=$('book-check');if(bookCheck)bookCheck.addEventListener('click',checkAndHoldWebBooking);
+}
+function checkAndHoldWebBooking(){var start=$('book-start').value,end=$('book-end').value||start,status=$('book-status');if(!start){status.textContent='Choose a start date.';return;}var crew=CAT.edit;if(!crew||!crew._id)return;status.textContent='Checking availability…';call(EP.contractors+'/'+encodeURIComponent(crew._id)+'/availability?start='+encodeURIComponent(start)+'&end='+encodeURIComponent(end)).then(function(response){var bookings=response.data&&response.data.bookings||[],conflict=bookings.some(function(b){return ['confirmed','done'].indexOf(b.state)>=0;});if(conflict)throw new Error('Those days are already booked');return call(EP.contractors+'/'+encodeURIComponent(crew._id)+'/holds',{method:'POST',body:{startDate:start,endDate:end}});}).then(function(response){status.textContent=response.message||'Dates held for 48 hours';loadCatalogue();}).catch(function(error){status.textContent=error.message||'Could not hold these dates';});}
+function loadWebCommerceSettings(){
+  $('cat-add').style.display='none';$('cat-q').parentElement.style.display='none';
+  $('cat-body').innerHTML='<div class="cat-empty">Loading…</div>';
+  call(EP.commerceSettings).then(function(response){var d=response&&response.data||{},s=d.store||{},q=d.quoting||{},v=d.delivery||{};CAT.settings=d;$('cat-body').innerHTML='<form class="cat-card" id="rules-form" style="width:100%;max-width:900px;margin:0 auto"><h2>Commerce rules</h2><p>These defaults apply to your catalogue, quotes and delivery.</p><div class="cat-grid">'+fieldHtml('validityDays','Quotation validity (days)',q.validityDays||14,'number')+fieldHtml('defaultMarginPercent','Default margin %',q.defaultMarginPercent||0,'number')+fieldHtml('discountCeilingPercent','Discount ceiling %',q.discountCeilingPercent||0,'number')+fieldHtml('vatPercent','VAT %',q.vatPercent==null?10:q.vatPercent,'number')+fieldHtml('defaultLeadTimeDays','Default lead time (days)',v.defaultLeadTimeDays||0,'number')+fieldHtml('zones','Delivery zones',(v.zones||[]).join(', '))+fieldHtml('notes','Delivery notes',v.notes||'','textarea',true)+'<div class="cat-field"><label><input type="checkbox" name="visible" '+(s.visible!==false?'checked':'')+'> Public store visible</label></div><div class="cat-field"><label><input type="checkbox" name="showOutOfStock" '+(s.showOutOfStock!==false?'checked':'')+'> Show out-of-stock items</label></div><div class="cat-field"><label><input type="checkbox" name="samplesEnabled" '+(s.samplesEnabled?'checked':'')+'> Samples enabled</label></div><div class="cat-field"><label><input type="checkbox" name="finderEnabled" '+(s.finderEnabled!==false?'checked':'')+'> Finder enabled</label></div><div class="cat-field"><label><input type="checkbox" name="installationOffered" '+(v.installationOffered?'checked':'')+'> Installation offered</label></div></div><div id="rules-error" class="si-err"></div><div class="cat-foot"><button class="cat-action" type="submit">Save changes</button></div></form>';$('rules-form').addEventListener('submit',saveWebCommerceSettings);}).catch(function(error){$('cat-body').innerHTML='<div class="cat-empty">'+esc(error.message||'Could not load settings.')+'</div>';});
+}
+function saveWebCommerceSettings(event){event.preventDefault();var form=event.currentTarget,fd=new FormData(form),body={revision:Number(CAT.settings&&CAT.settings.revision||1),store:{visible:fd.has('visible'),showOutOfStock:fd.has('showOutOfStock'),samplesEnabled:fd.has('samplesEnabled'),finderEnabled:fd.has('finderEnabled')},quoting:{validityDays:Number(fd.get('validityDays')||14),defaultMarginPercent:Number(fd.get('defaultMarginPercent')||0),discountCeilingPercent:Number(fd.get('discountCeilingPercent')||0),vatPercent:Number(fd.get('vatPercent')||10)},delivery:{defaultLeadTimeDays:Number(fd.get('defaultLeadTimeDays')||0),installationOffered:fd.has('installationOffered'),zones:String(fd.get('zones')||'').split(',').map(function(x){return x.trim();}).filter(Boolean),notes:String(fd.get('notes')||'').trim()}};call(EP.commerceSettings,{method:'PUT',body:body}).then(function(){toast('Commerce settings saved');loadWebCommerceSettings();}).catch(function(error){var el=$('rules-error');el.textContent=error.message||'Could not save settings.';el.classList.add('on');});}
+function catalogueFormValues(){var values={};new FormData($('cat-form')).forEach(function(value,key){values[key]=String(value).trim();});return values;}
+function saveCatalogue(event){
+  event.preventDefault();var v=catalogueFormValues(),body;
+  if(!v.name){err('cat-error','Name is required.');return;}
+  if(CAT.kind==='contractors'){
+    if(!v.trade||!v.description){err('cat-error','Trade and description are required.');return;}
+    body={name:v.name,trade:v.trade,crewDescription:v.description,pricing:{mode:v.pricingMode,rate:v.pricingMode==='rate'?Number(v.rate):null,unit:v.pricingMode==='rate'?v.unit:null},minimumBookingDays:Number(v.minimumBookingDays||1),areas:v.areas.split(',').map(function(x){return x.trim();}).filter(Boolean),publicationStatus:v.publicationStatus,certificates:v.certificateUrl?[{type:v.certificateType||'Certificate',document:{url:v.certificateUrl,fileName:v.certificateUrl.split('/').pop()||'certificate',fileType:'document'},expiresAt:v.certificateExpiry,required:true}]:[]};
+    if(CAT.edit){body._id=CAT.edit._id;body.revision=CAT.edit.revision;}
+  }else{
+    body={productImages:v.coverUrl?[{url:v.coverUrl,fileName:v.coverUrl.split('/').pop()||'cover',fileType:'image'}]:[],productInfo:{productName:v.name,skuOrCode:v.sku},description:v.description,typeOfProduct:CAT.kind==='items'?'product':'service',pricing:{sellingPrice:v.price===''?null:Number(v.price),finalPrice:v.price===''?null:Number(v.price),discountPercent:0},pricingModel:v.pricingModel,imageFit:v.imageFit,publicationStatus:v.publicationStatus};if(CAT.edit){body._id=CAT.edit._id;body.managementRevision=CAT.edit.managementRevision||1;}
+  }
+  $('cat-save').disabled=true;call(CAT.kind==='contractors'?EP.contractors:EP.catalogueSave,{method:'POST',body:body}).then(function(){$('cat-modal').classList.remove('on');loadCatalogue();}).catch(function(error){err('cat-error',error.message||'Could not save this record.');}).then(function(){$('cat-save').disabled=false;});
+}
+$('cat-add').addEventListener('click',function(){openCatalogueForm(null);});
+$('cat-import').addEventListener('click',function(){$('cat-import-file').click();});
+$('cat-import-file').addEventListener('change',function(){
+  var file=this.files&&this.files[0];if(!file)return;
+  file.text().then(function(text){
+    var lines=text.split(/\r?\n/).filter(function(line){return line.trim();});if(lines.length<2)throw new Error('The CSV has no data rows.');
+    function parse(line){var out=[],cur='',quoted=false;for(var i=0;i<line.length;i++){var c=line[i];if(c==='"'){if(quoted&&line[i+1]==='"'){cur+='"';i++;}else quoted=!quoted;}else if(c===','&&!quoted){out.push(cur.trim());cur='';}else cur+=c;}out.push(cur.trim());return out;}
+    var headers=parse(lines[0]),rows=lines.slice(1).map(function(line){var values=parse(line),row={};headers.forEach(function(h,i){row[h]=values[i]||'';});return row;});
+    function guess(h){var v=h.toLowerCase().replace(/[^a-z]/g,'');if(v.indexOf('sku')>=0||v==='code')return'sku';if(v.indexOf('name')>=0||v.indexOf('title')>=0)return'name';if(v.indexOf('desc')>=0)return'description';if(v.indexOf('price')>=0||v.indexOf('amount')>=0)return'price';return'';}
+    var mapping={};headers.forEach(function(h){mapping[h]=guess(h);});
+    if(Object.values(mapping).indexOf('sku')<0||Object.values(mapping).indexOf('name')<0)throw new Error('Map a SKU and name column by naming them SKU/Code and Name/Title.');
+    return call(EP.importCheck,{method:'POST',body:{type:CAT.kind,rows:rows,mapping:mapping}});
+  }).then(function(response){var d=response.data||{},message=d.ready+' ready · '+d.problems+' problems';if(!d.ready)throw new Error(message);var confirmed=!d.requiresConfirmation||confirm(message+'\n\nMore than 25% have problems. Import accepted rows?');if(!confirmed)return;return call(EP.imports+'/'+encodeURIComponent(d.importId)+'/commit',{method:'POST',body:{confirmHighRejects:!!d.requiresConfirmation}});}).then(function(response){if(response){toast('Import complete · Needs price filter applied');loadCatalogue();}}).catch(function(error){toast(error.message||'Import failed');}).then(function(){$('cat-import-file').value='';});
+});
+$('cat-cancel').addEventListener('click',function(){$('cat-modal').classList.remove('on');});
+$('cat-form').addEventListener('submit',saveCatalogue);
+$('cat-bulk').querySelectorAll('[data-bulk]').forEach(function(button){button.addEventListener('click',function(){runCatalogueBulk(button.dataset.bulk);});});
+$('cat-q').addEventListener('input',function(){CAT.q=this.value.trim();clearTimeout(CAT.searchTimer);CAT.searchTimer=setTimeout(loadCatalogue,280);});
+$('cat-signout').addEventListener('click',function(){$('signout').click();});
 
 /* -------------------- inbox -------------------- */
 var CHIPS = [['all','All'],['unread','Unread'],['waiting','Waiting'],['mine','Assigned to me'],
