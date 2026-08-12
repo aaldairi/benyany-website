@@ -50,3 +50,21 @@ test("optimistic conflicts preserve edits and name the save failure", () => {
   assert.match(html, /error\.status===409/);
   assert.match(html, /Not saved — this record changed elsewhere\. Your edits are still here\./);
 });
+
+test("catalogue paging is keyset-based on both catalogue types", () => {
+  assert.match(html, /limit=25/);
+  assert.match(html, /cursor=.*encodeURIComponent/);
+  assert.match(html, /payload\.nextCursor/);
+  assert.match(html, /payload\.hasMore/);
+  assert.match(html, /Load next 25/);
+  assert.doesNotMatch(html, /contractors'\) return EP\.contractors\+'\?limit=100&page=1/);
+});
+
+test("CSV import exposes all three required steps and remembered mapping", () => {
+  assert.match(html, /Step 2 of 3 · Map columns/);
+  assert.match(html, /Step 3 of 3 · Check before importing/);
+  assert.match(html, /importMapping: API \+ '\/catalogue-imports\/mapping'/);
+  assert.match(html, /data-import-source/);
+  assert.match(html, /Not imported/);
+  assert.match(html, /Nothing partially imports/);
+});
